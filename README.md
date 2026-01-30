@@ -12,3 +12,4 @@ pyspark \
   --conf "spark.driver.memory=5G" \
   --jars <iceberg-aws-bundle:1.7.0>,<iceberg-spark-runtime:1.7.0>
 ```
+https://github.com/AlexMercedCoder/Apache-Polaris-Apache-Iceberg-Minio-Spark-Quickstart
