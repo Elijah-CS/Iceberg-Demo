@@ -1,0 +1,57 @@
+version: '3.8'
+services:
+  minio:
+    image: minio/minio:RELEASE.2025-09-07T16-13-09Z
+    container_name: minio
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password
+    networks:
+      polaris-net:
+        aliases:
+          - minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    command: ["server", "/data", "--console-address", ":9001"]
+
+  minio-client:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    networks:
+      - polaris-net
+    entrypoint: >
+      /bin/sh -c "
+        until mc alias set minio http://minio:9000 admin password; do sleep 1; done;
+        mc mb minio/warehouse;
+        mc anonymous set public minio/warehouse;
+        exit
+      "
+
+  polaris:
+    image: apache/polaris:1.1.0-incubating
+    container_name: polaris
+    platform: linux/amd64
+    ports:
+      - "8181:8181"
+      - "8182:8182"
+    networks:
+      - polaris-net
+    environment:
+      AWS_ACCESS_KEY_ID: admin
+      AWS_SECRET_ACCESS_KEY: password
+      AWS_REGION: us-east-1
+      AWS_ENDPOINT_URL_S3: http://minio:9000
+      AWS_ENDPOINT_URL_STS: http://minio:9000
+      POLARIS_BOOTSTRAP_CREDENTIALS: DEMO,root,secret
+      polaris.realm-context.realms: DEMO
+      polaris.features.DROP_WITH_PURGE_ENABLED: "true"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8182/q/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+networks:
+  polaris-net:
+    driver: bridge
