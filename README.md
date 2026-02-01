@@ -30,7 +30,7 @@ pyspark \
   --conf "spark.executor.memoryOverhead=5G" \
   --conf "spark.driver.memoryOverhead=5G" \
   --conf "spark.driver.memory=5G" \
-  --packages org.apache.iceberg:iceberg-aws-bundle:1.10.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.10.0,org.apache.polaris:polaris-spark-3.5_2.12:1.1.0-incubating
+  --packages org.apache.iceberg:iceberg-aws-bundle:1.7.0,org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:1.7.0,org.apache.polaris:polaris-spark-3.5_2.12:1.3.0-incubating
 ```
 And copy the text in `ingest.py` in the shell
 
@@ -39,6 +39,6 @@ Spark Version: `3.5.0`
 Spark Scala Version: `2.12.18`
 
 MinIO Version: `RELEASE.2025-09-07T16-13-09Z`
-Apache Polaris Version: `1.1.0-incubating`
+Apache Polaris Version: `1.3.0-incubating`
 
-Iceberg jar versions: `1.10.0`
+Iceberg jar versions: `1.7.0`

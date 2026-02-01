@@ -60,15 +60,18 @@ def ensure_catalog(name):
     "catalog": {
         "name": name,
         "type": "INTERNAL",
-        "properties": {"default-base-location": f"s3://{name}"},
+        "properties": {
+            "default-base-location": f"s3://{name}/"
+        },
         "storageConfigInfo": {
             "storageType": "S3",
-            "allowedLocations": [f"s3://{name}/*"],
+            "allowedLocations": [f"s3://{name}/"],
             "region": "us-east-1",
             "endpointInternal": "http://minio:9000",
             "endpoint": "http://localhost:9000",
             "pathStyleAccess": True,
-            "stsUnavailable": True
+            "stsUnavailable": True,
+            "roleArn": "arn:aws:iam::012345678901:role/polaris-role"
         }
     }
 }
