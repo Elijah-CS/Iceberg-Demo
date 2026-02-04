@@ -1,0 +1,10 @@
+services:
+
+  trino:
+    image: trinodb/trino:479
+    container_name: trino
+    ports:
+      - "8580:8080"
+    cpuset: "0-49"
+    volumes:
+      - ./trino-etc:/etc/trino:ro
